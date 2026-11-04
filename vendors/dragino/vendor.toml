@@ -10,6 +10,8 @@ devices = [
     "ldds75.toml",
     "lht65n.toml",
     "t68dl.toml",
+    "lht65-legacy.toml",
+    "ltc2.toml",
 ]
 
 [vendor.metadata]

@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Dragino LTC2 - Temperature Transmitter 0e6201211080016aead07b",
+        "input": {
+            "fPort": 2,
+            "bytes": [
+                14,
+                98,
+                1,
+                33,
+                16,
+                128,
+                1,
+                106,
+                234,
+                208,
+                123
+            ]
+        },
+        "expected": {
+            "data": {
+                "Ext": 1,
+                "battery": 3.682,
+                "temperature_1": 84.64,
+                "temperature_2": "NULL",
+                "Systimestamp": 1793773691
+            }
+        }
+    }
+]

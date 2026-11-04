@@ -1,0 +1,33 @@
+[
+    {
+        "name": "Dragino LHT65 - Temperature & Humidity Sensor cbf608a101a38400007fff",
+        "input": {
+            "fPort": 2,
+            "bytes": [
+                203,
+                246,
+                8,
+                161,
+                1,
+                163,
+                132,
+                0,
+                0,
+                127,
+                255
+            ]
+        },
+        "expected": {
+            "data": {
+                "battery": 3.062,
+                "battery_status": 3,
+                "temperature_1": 22.09,
+                "humidity_1": 41.9,
+                "No_connect": "Sensor no connection",
+                "Work_mode": "Interrupt Sensor send",
+                "Exti_pin_level": "Low",
+                "Exti_status": "False"
+            }
+        }
+    }
+]

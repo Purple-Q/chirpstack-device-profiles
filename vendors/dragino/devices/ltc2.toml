@@ -1,0 +1,14 @@
+[device]
+id = "94aff9e3-31e6-45f6-906f-d503565f730a"
+name = "LTC2"
+description = "PT100 temperature transmitter, 2 channels. Based on Dragino's official decoder, Purple-Q field naming."
+
+[[device.firmware]]
+version = "1.0"
+profiles = [
+    "EU868-1_0_3.toml",
+]
+codec = "ltc2.js"
+
+[device.metadata]
+product_url = "https://www.dragino.com/"

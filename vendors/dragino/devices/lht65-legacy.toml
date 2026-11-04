@@ -1,0 +1,14 @@
+[device]
+id = "ebdada61-0260-40b2-b5ed-b3061e2bdd59"
+name = "LHT65 (legacy firmware)"
+description = "Older LHT65 (not LHT65N): byte 6 bit 7 means 'external sensor not connected'. Purple-Q field naming."
+
+[[device.firmware]]
+version = "legacy"
+profiles = [
+    "EU868-1_0_3.toml",
+]
+codec = "lht65-legacy.js"
+
+[device.metadata]
+product_url = "https://www.dragino.com/products/temperature-humidity-sensor.html"
