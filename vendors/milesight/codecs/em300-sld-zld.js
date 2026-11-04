@@ -75,29 +75,29 @@ function milesightDeviceDecode(bytes) {
             decoded.battery = readUInt8(bytes[i]);
             i += 1;
         }
-        // TEMPERATURE
+        // temperature_1
         else if (channel_id === 0x03 && channel_type === 0x67) {
             // °C
-            decoded.temperature = readInt16LE(bytes.slice(i, i + 2)) / 10;
+            decoded.temperature_1 = readInt16LE(bytes.slice(i, i + 2)) / 10;
             i += 2;
         }
-        // HUMIDITY
+        // humidity_1
         else if (channel_id === 0x04 && channel_type === 0x68) {
-            decoded.humidity = readUInt8(bytes[i]) / 2;
+            decoded.humidity_1 = readUInt8(bytes[i]) / 2;
             i += 1;
         }
         // LEAKAGE STATUS
         else if (channel_id === 0x05 && channel_type === 0x00) {
-            decoded.leakage_status = readLeakageStatus(bytes[i]);
+            decoded.leakage_status_1 = readLeakageStatus(bytes[i]);
             i += 1;
         }
-        // TEMPERATURE, HUMIDITY & LEAKAGE STATUS HISTORY
+        // temperature_1, humidity_1 & LEAKAGE STATUS HISTORY
         else if (channel_id === 0x20 && channel_type === 0xce) {
             var data = {};
             data.timestamp = readUInt32LE(bytes.slice(i, i + 4));
-            data.temperature = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
-            data.humidity = readUInt8(bytes[i + 6]) / 2;
-            data.leakage_status = readLeakageStatus(bytes[i + 7]);
+            data.temperature_1 = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
+            data.humidity_1 = readUInt8(bytes[i + 6]) / 2;
+            data.leakage_status_1 = readLeakageStatus(bytes[i + 7]);
             i += 8;
             decoded.history = decoded.history || [];
             decoded.history.push(data);
@@ -132,10 +132,10 @@ function handle_downlink_response(channel_type, bytes, offset) {
             var channel = (data >>> 3) & 0x07;
             var value = data & 0x07;
             if (channel === 0x01) {
-                decoded.temperature_alarm_config = {};
-                decoded.temperature_alarm_config.condition = readConditionType(value);
-                decoded.temperature_alarm_config.threshold_min = readInt16LE(bytes.slice(offset + 1, offset + 3)) / 10;
-                decoded.temperature_alarm_config.threshold_max = readInt16LE(bytes.slice(offset + 3, offset + 5)) / 10;
+                decoded.temperature_1_alarm_config = {};
+                decoded.temperature_1_alarm_config.condition = readConditionType(value);
+                decoded.temperature_1_alarm_config.threshold_min = readInt16LE(bytes.slice(offset + 1, offset + 3)) / 10;
+                decoded.temperature_1_alarm_config.threshold_max = readInt16LE(bytes.slice(offset + 3, offset + 5)) / 10;
             } else if (channel === 0x02) {
                 decoded.leakage_alarm_config = {};
                 decoded.leakage_alarm_config.enable = readEnableStatus(value);
@@ -195,13 +195,13 @@ function handle_downlink_response(channel_type, bytes, offset) {
             var channel = data & 0x03;
             var enable_value = (data >>> 7) & 0x01;
             if (channel === 0x00) {
-                decoded.temperature_calibration_settings = {};
-                decoded.temperature_calibration_settings.enable = readEnableStatus(enable_value);
-                decoded.temperature_calibration_settings.calibration_value = readInt16LE(bytes.slice(offset + 1, offset + 3)) / 10;
+                decoded.temperature_1_calibration_settings = {};
+                decoded.temperature_1_calibration_settings.enable = readEnableStatus(enable_value);
+                decoded.temperature_1_calibration_settings.calibration_value = readInt16LE(bytes.slice(offset + 1, offset + 3)) / 10;
             } else if (channel === 0x01) {
-                decoded.humidity_calibration_settings = {};
-                decoded.humidity_calibration_settings.enable = readEnableStatus(enable_value);
-                decoded.humidity_calibration_settings.calibration_value = readInt16LE(bytes.slice(offset + 1, offset + 3)) / 2;
+                decoded.humidity_1_calibration_settings = {};
+                decoded.humidity_1_calibration_settings.enable = readEnableStatus(enable_value);
+                decoded.humidity_1_calibration_settings.calibration_value = readInt16LE(bytes.slice(offset + 1, offset + 3)) / 2;
             }
             offset += 3;
             break;
@@ -285,7 +285,7 @@ function readConditionType(value) {
 }
 
 function readD2DMode(value) {
-    var event_map = { 0: "disable", 1: "temperature_alarm", 2: "temperature_alarm_release", 3: "leakage_alarm", 4: "leakage_alarm_release" };
+    var event_map = { 0: "disable", 1: "temperature_1_alarm", 2: "temperature_1_alarm_release", 3: "leakage_alarm", 4: "leakage_alarm_release" };
     return getValue(event_map, value);
 }
 
@@ -433,17 +433,17 @@ function milesightDeviceEncode(payload) {
     if ("resend_interval" in payload) {
         encoded = encoded.concat(setResendInterval(payload.resend_interval));
     }
-    if ("temperature_alarm_config" in payload) {
-        encoded = encoded.concat(setTemperatureAlarmConfig(payload.temperature_alarm_config));
+    if ("temperature_1_alarm_config" in payload) {
+        encoded = encoded.concat(setTemperatureAlarmConfig(payload.temperature_1_alarm_config));
     }
     if ("leakage_alarm_config" in payload) {
         encoded = encoded.concat(setLeakageAlarm(payload.leakage_alarm_config));
     }
-    if ("temperature_calibration_settings" in payload) {
-        encoded = encoded.concat(setTemperatureCalibration(payload.temperature_calibration_settings));
+    if ("temperature_1_calibration_settings" in payload) {
+        encoded = encoded.concat(setTemperatureCalibration(payload.temperature_1_calibration_settings));
     }
-    if ("humidity_calibration_settings" in payload) {
-        encoded = encoded.concat(setHumidityCalibration(payload.humidity_calibration_settings));
+    if ("humidity_1_calibration_settings" in payload) {
+        encoded = encoded.concat(setHumidityCalibration(payload.humidity_1_calibration_settings));
     }
     if ("d2d_master_config" in payload) {
         for (var i = 0; i < payload.d2d_master_config.length; i++) {
@@ -681,17 +681,17 @@ function setResendInterval(resend_interval) {
 }
 
 /**
- * set temperature threshold alarm
- * @param {object} temperature_alarm_config
- * @param {number} temperature_alarm_config.condition values: (0: disable, 1: below, 2: above, 3: between, 4: outside)
- * @param {number} temperature_alarm_config.threshold_min condition=(below, within, outside)
- * @param {number} temperature_alarm_config.threshold_max condition=(above, within, outside)
- * @example { "temperature_alarm_config": { "condition": 2, "threshold_min": 10, "threshold_max": 30 } }
+ * set temperature_1 threshold alarm
+ * @param {object} temperature_1_alarm_config
+ * @param {number} temperature_1_alarm_config.condition values: (0: disable, 1: below, 2: above, 3: between, 4: outside)
+ * @param {number} temperature_1_alarm_config.threshold_min condition=(below, within, outside)
+ * @param {number} temperature_1_alarm_config.threshold_max condition=(above, within, outside)
+ * @example { "temperature_1_alarm_config": { "condition": 2, "threshold_min": 10, "threshold_max": 30 } }
  */
-function setTemperatureAlarmConfig(temperature_alarm_config) {
-    var condition = temperature_alarm_config.condition;
-    var threshold_min = temperature_alarm_config.threshold_min;
-    var threshold_max = temperature_alarm_config.threshold_max;
+function setTemperatureAlarmConfig(temperature_1_alarm_config) {
+    var condition = temperature_1_alarm_config.condition;
+    var threshold_min = temperature_1_alarm_config.threshold_min;
+    var threshold_max = temperature_1_alarm_config.threshold_max;
 
     var condition_map = { 0: "disable", 1: "below", 2: "above", 3: "between", 4: "outside" };
     var condition_values = getEncoderValues(condition_map);
@@ -745,21 +745,21 @@ function setLeakageAlarm(leakage_alarm_config) {
 }
 
 /**
- * set temperature calibration
+ * set temperature_1 calibration
  * @since v1.8
- * @param {object} temperature_calibration_settings
- * @param {number} temperature_calibration_settings.enable values: (0: disable, 1: enable)
- * @param {number} temperature_calibration_settings.calibration_value unit: °C
- * @example { "temperature_calibration_settings": { "enable": 1, "calibration_value": 10 } }
+ * @param {object} temperature_1_calibration_settings
+ * @param {number} temperature_1_calibration_settings.enable values: (0: disable, 1: enable)
+ * @param {number} temperature_1_calibration_settings.calibration_value unit: °C
+ * @example { "temperature_1_calibration_settings": { "enable": 1, "calibration_value": 10 } }
  */
-function setTemperatureCalibration(temperature_calibration_settings) {
-    var enable = temperature_calibration_settings.enable;
-    var calibration_value = temperature_calibration_settings.calibration_value;
+function setTemperatureCalibration(temperature_1_calibration_settings) {
+    var enable = temperature_1_calibration_settings.enable;
+    var calibration_value = temperature_1_calibration_settings.calibration_value;
 
     var enable_map = { 0: "disable", 1: "enable" };
     var enable_values = getEncoderValues(enable_map);
     if (enable_values.indexOf(enable) === -1) {
-        throw new Error("temperature_calibration_settings.enable must be one of " + enable_values.join(", "));
+        throw new Error("temperature_1_calibration_settings.enable must be one of " + enable_values.join(", "));
     }
 
     var data = (getEncoderValue(enable_map, enable) << 7) | 0x00;
@@ -772,21 +772,21 @@ function setTemperatureCalibration(temperature_calibration_settings) {
 }
 
 /**
- * set humidity calibration
+ * set humidity_1 calibration
  * @since v1.8
- * @param {object} humidity_calibration_settings
- * @param {number} humidity_calibration_settings.enable values: (0: disable, 1: enable)
- * @param {number} humidity_calibration_settings.calibration_value unit: %.R.H
- * @example { "humidity_calibration_settings": { "enable": 1, "calibration_value": 1.5 } }
+ * @param {object} humidity_1_calibration_settings
+ * @param {number} humidity_1_calibration_settings.enable values: (0: disable, 1: enable)
+ * @param {number} humidity_1_calibration_settings.calibration_value unit: %.R.H
+ * @example { "humidity_1_calibration_settings": { "enable": 1, "calibration_value": 1.5 } }
  */
-function setHumidityCalibration(humidity_calibration_settings) {
-    var enable = humidity_calibration_settings.enable;
-    var calibration_value = humidity_calibration_settings.calibration_value;
+function setHumidityCalibration(humidity_1_calibration_settings) {
+    var enable = humidity_1_calibration_settings.enable;
+    var calibration_value = humidity_1_calibration_settings.calibration_value;
 
     var enable_map = { 0: "disable", 1: "enable" };
     var enable_values = getEncoderValues(enable_map);
     if (enable_values.indexOf(enable) === -1) {
-        throw new Error("humidity_calibration_settings.enable must be one of " + enable_values.join(", "));
+        throw new Error("humidity_1_calibration_settings.enable must be one of " + enable_values.join(", "));
     }
 
     var data = (getEncoderValue(enable_map, enable) << 7) | 0x01;
@@ -801,7 +801,7 @@ function setHumidityCalibration(humidity_calibration_settings) {
 /**
  * set D2D configuration
  * @param {object} d2d_master_config
- * @param {number} d2d_master_config.mode values: (1: temperature_alarm, 2: temperature_alarm_release, 3: leakage_alarm, 4: leakage_alarm_release)
+ * @param {number} d2d_master_config.mode values: (1: temperature_1_alarm, 2: temperature_1_alarm_release, 3: leakage_alarm, 4: leakage_alarm_release)
  * @param {number} d2d_master_config.report_type values: (0: lora, 1: d2d, 3: d2d_and_lora)
  * @param {string} d2d_master_config.d2d_cmd
  * @example { "d2d_master_config": { "mode": 1, "report_type": 1, "d2d_cmd": "0000" } }
@@ -811,7 +811,7 @@ function setD2DMasterConfig(d2d_master_config) {
     var report_type = d2d_master_config.report_type;
     var d2d_cmd = d2d_master_config.d2d_cmd;
 
-    var event_map = { 1: "temperature_alarm", 2: "temperature_alarm_release", 3: "leakage_alarm", 4: "leakage_alarm_release" };
+    var event_map = { 1: "temperature_1_alarm", 2: "temperature_1_alarm_release", 3: "leakage_alarm", 4: "leakage_alarm_release" };
     var event_values = getEncoderValues(event_map);
     if (event_values.indexOf(mode) === -1) {
         throw new Error("d2d_master_config.mode must be one of " + event_values.join(", "));

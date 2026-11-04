@@ -1,0 +1,44 @@
+[
+    {
+        "name": "BR 301 01755b0367d500",
+        "input": {
+            "fPort": 85,
+            "bytes": [
+                1,
+                117,
+                91,
+                3,
+                103,
+                213,
+                0
+            ]
+        },
+        "expected": {
+            "data": {
+                "battery": 91,
+                "temperature_1": 21.3
+            }
+        }
+    },
+    {
+        "name": "BR 301 017556036730fd",
+        "input": {
+            "fPort": 85,
+            "bytes": [
+                1,
+                117,
+                86,
+                3,
+                103,
+                48,
+                253
+            ]
+        },
+        "expected": {
+            "data": {
+                "battery": 86,
+                "temperature_1": -72
+            }
+        }
+    }
+]

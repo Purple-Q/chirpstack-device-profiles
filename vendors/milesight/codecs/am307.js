@@ -73,45 +73,45 @@ function milesightDeviceDecode(bytes) {
             decoded.battery = readUInt8(bytes[i]);
             i += 1;
         }
-        // TEMPERATURE
+        // temperature_1
         else if (channel_id === 0x03 && channel_type === 0x67) {
             // °C
-            decoded.temperature = readInt16LE(bytes.slice(i, i + 2)) / 10;
+            decoded.temperature_1 = readInt16LE(bytes.slice(i, i + 2)) / 10;
             i += 2;
         }
-        // HUMIDITY
+        // humidity_1
         else if (channel_id === 0x04 && channel_type === 0x68) {
-            decoded.humidity = readUInt8(bytes[i]) / 2;
+            decoded.humidity_1 = readUInt8(bytes[i]) / 2;
             i += 1;
         }
         // PIR
         else if (channel_id === 0x05 && channel_type === 0x00) {
-            decoded.pir = readPIRStatus(bytes[i]);
+            decoded.pir_1 = readPIRStatus(bytes[i]);
             i += 1;
         }
         // LIGHT
         else if (channel_id === 0x06 && channel_type === 0xcb) {
-            decoded.light_level = readUInt8(bytes[i]);
+            decoded.light_level_1 = readUInt8(bytes[i]);
             i += 1;
         }
         // CO2
         else if (channel_id === 0x07 && channel_type === 0x7d) {
-            decoded.co2 = readUInt16LE(bytes.slice(i, i + 2));
+            decoded.co2_1 = readUInt16LE(bytes.slice(i, i + 2));
             i += 2;
         }
         // TVOC (iaq)
         else if (channel_id === 0x08 && channel_type === 0x7d) {
-            decoded.tvoc = readUInt16LE(bytes.slice(i, i + 2)) / 100;
+            decoded.tvoc_1 = readUInt16LE(bytes.slice(i, i + 2)) / 100;
             i += 2;
         }
         // TVOC (µg/m³)
         else if (channel_id === 0x08 && channel_type === 0xe6) {
-            decoded.tvoc = readUInt16LE(bytes.slice(i, i + 2));
+            decoded.tvoc_1 = readUInt16LE(bytes.slice(i, i + 2));
             i += 2;
         }
         // PRESSURE
         else if (channel_id === 0x09 && channel_type === 0x73) {
-            decoded.pressure = readUInt16LE(bytes.slice(i, i + 2)) / 10;
+            decoded.pressure_1 = readUInt16LE(bytes.slice(i, i + 2)) / 10;
             i += 2;
         }
         // BEEP
@@ -123,14 +123,14 @@ function milesightDeviceDecode(bytes) {
         else if (channel_id === 0x20 && channel_type === 0xce) {
             var data = {};
             data.timestamp = readUInt32LE(bytes.slice(i, i + 4));
-            data.temperature = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
-            data.humidity = readUInt16LE(bytes.slice(i + 6, i + 8)) / 2;
-            data.pir = readPIRStatus(bytes[i + 8]);
-            data.light_level = readUInt8(bytes[i + 9]);
-            data.co2 = readUInt16LE(bytes.slice(i + 10, i + 12));
+            data.temperature_1 = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
+            data.humidity_1 = readUInt16LE(bytes.slice(i + 6, i + 8)) / 2;
+            data.pir_1 = readPIRStatus(bytes[i + 8]);
+            data.light_level_1 = readUInt8(bytes[i + 9]);
+            data.co2_1 = readUInt16LE(bytes.slice(i + 10, i + 12));
             // unit: iaq
-            data.tvoc = readUInt16LE(bytes.slice(i + 12, i + 14)) / 100;
-            data.pressure = readUInt16LE(bytes.slice(i + 14, i + 16)) / 10;
+            data.tvoc_1 = readUInt16LE(bytes.slice(i + 12, i + 14)) / 100;
+            data.pressure_1 = readUInt16LE(bytes.slice(i + 14, i + 16)) / 10;
             i += 16;
             decoded.history = decoded.history || [];
             decoded.history.push(data);
@@ -139,14 +139,14 @@ function milesightDeviceDecode(bytes) {
         else if (channel_id === 0x21 && channel_type === 0xce) {
             var data = {};
             data.timestamp = readUInt32LE(bytes.slice(i, i + 4));
-            data.temperature = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
-            data.humidity = readUInt16LE(bytes.slice(i + 6, i + 8)) / 2;
-            data.pir = readPIRStatus(bytes[i + 8]);
-            data.light_level = readUInt8(bytes[i + 9]);
-            data.co2 = readUInt16LE(bytes.slice(i + 10, i + 12));
+            data.temperature_1 = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
+            data.humidity_1 = readUInt16LE(bytes.slice(i + 6, i + 8)) / 2;
+            data.pir_1 = readPIRStatus(bytes[i + 8]);
+            data.light_level_1 = readUInt8(bytes[i + 9]);
+            data.co2_1 = readUInt16LE(bytes.slice(i + 10, i + 12));
             // unit: µg/m³
-            data.tvoc = readUInt16LE(bytes.slice(i + 12, i + 14));
-            data.pressure = readUInt16LE(bytes.slice(i + 14, i + 16)) / 10;
+            data.tvoc_1 = readUInt16LE(bytes.slice(i + 12, i + 14));
+            data.pressure_1 = readUInt16LE(bytes.slice(i + 14, i + 16)) / 10;
             i += 16;
             decoded.history = decoded.history || [];
             decoded.history.push(data);
@@ -372,7 +372,7 @@ function readScreenDisplayElementSettings(bytes) {
     var data = readUInt16LE(bytes.slice(2, 4));
 
     var settings = {};
-    var sensor_bit_offset = { temperature: 0, humidity: 1, co2: 2, light: 3, tvoc: 4, smile: 5, letter: 6 };
+    var sensor_bit_offset = { temperature_1: 0, humidity_1: 1, co2: 2, light: 3, tvoc: 4, smile: 5, letter: 6 };
     for (var key in sensor_bit_offset) {
         if ((mask >>> sensor_bit_offset[key]) & 0x01) {
             settings[key] = readEnableStatus((data >> sensor_bit_offset[key]) & 0x01);

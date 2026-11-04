@@ -34,14 +34,14 @@ function milesightDeviceDecode(bytes) {
         }
         // LEAKAGE STATUS
         else if (channel_id === 0x05 && channel_type === 0x00) {
-            decoded.leakage_status = bytes[i] === 0 ? "normal" : "leak";
+            decoded.leakage_status_1 = bytes[i] === 0 ? "normal" : "leak";
             i += 1;
         }
-        // TEMPERATURE, HUMIDITY & LEAKAGE STATUS HISTROY
+        // temperature_1, humidity_1 & LEAKAGE STATUS HISTROY
         else if (channel_id === 0x20 && channel_type === 0xce) {
             var point = {};
             point.timestamp = readUInt32LE(bytes.slice(i, i + 4));
-            point.leakage_status = bytes[i + 7] === 0 ? "normal" : "leak";
+            point.leakage_status_1 = bytes[i + 7] === 0 ? "normal" : "leak";
 
             decoded.history = decoded.history || [];
             decoded.history.push(point);

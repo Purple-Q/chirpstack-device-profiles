@@ -1,0 +1,88 @@
+[
+    {
+        "name": "BR 302 0175630300000467c600",
+        "input": {
+            "fPort": 85,
+            "bytes": [
+                1,
+                117,
+                99,
+                3,
+                0,
+                0,
+                4,
+                103,
+                198,
+                0
+            ]
+        },
+        "expected": {
+            "data": {
+                "battery": 99,
+                "digital_1": 0,
+                "temperature_2": 19.8
+            }
+        }
+    },
+    {
+        "name": "BR 302 017564030001040001",
+        "input": {
+            "fPort": 85,
+            "bytes": [
+                1,
+                117,
+                100,
+                3,
+                0,
+                1,
+                4,
+                0,
+                1
+            ]
+        },
+        "expected": {
+            "data": {
+                "battery": 100,
+                "digital_1": 1
+            }
+        }
+    },
+    {
+        "name": "BR 302 ffa004ffffffffffffffffffa014ffffffffffffffff",
+        "input": {
+            "fPort": 85,
+            "bytes": [
+                255,
+                160,
+                4,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                160,
+                20,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255,
+                255
+            ]
+        },
+        "expected": {
+            "data": {
+                "sensor_1_type": "MAGNET",
+                "sensor_1_sn": "ffffffffffffffff",
+                "sensor_2_type": "MAGNET",
+                "sensor_2_sn": "ffffffffffffffff"
+            }
+        }
+    }
+]

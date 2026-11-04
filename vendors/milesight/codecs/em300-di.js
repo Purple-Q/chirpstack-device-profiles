@@ -33,50 +33,50 @@ function milesightDeviceDecode(bytes) {
             decoded.battery = bytes[i];
             i += 1;
         }
-        // TEMPERATURE
+        // temperature_1
         else if (channel_id === 0x03 && channel_type === 0x67) {
             // ℃
-            decoded.temperature = readInt16LE(bytes.slice(i, i + 2)) / 10;
+            decoded.temperature_1 = readInt16LE(bytes.slice(i, i + 2)) / 10;
             i += 2;
 
             // ℉
-            // decoded.temperature = readInt16LE(bytes.slice(i, i + 2)) / 10 * 1.8 + 32;
+            // decoded.temperature_1 = readInt16LE(bytes.slice(i, i + 2)) / 10 * 1.8 + 32;
             // i +=2;
         }
-        // HUMIDITY
+        // humidity_1
         else if (channel_id === 0x04 && channel_type === 0x68) {
-            decoded.humidity = bytes[i] / 2;
+            decoded.humidity_1 = bytes[i] / 2;
             i += 1;
         }
         // GPIO
         else if (channel_id === 0x05 && channel_type === 0x00) {
-            decoded.gpio = readGPIOStatus(bytes[i]);
+            decoded.digital_1 = bytes[i];
             i += 1;
         }
         // PULSE COUNTER
         else if (channel_id === 0x05 && channel_type === 0xc8) {
-            decoded.pulse = readUInt32LE(bytes.slice(i, i + 4));
+            decoded.counter_1 = readUInt32LE(bytes.slice(i, i + 4));
             i += 4;
         }
         // PULSE COUNTER (v1.3+)
         else if (channel_id === 0x05 && channel_type === 0xe1) {
-            decoded.water_conv = readUInt16LE(bytes.slice(i, i + 2)) / 10;
-            decoded.pulse_conv = readUInt16LE(bytes.slice(i + 2, i + 4)) / 10;
-            decoded.water = readFloatLE(bytes.slice(i + 4, i + 8));
+            decoded.water_1_conv = readUInt16LE(bytes.slice(i, i + 2)) / 10;
+            decoded.counter_1_conv = readUInt16LE(bytes.slice(i + 2, i + 4)) / 10;
+            decoded.water_1 = readFloatLE(bytes.slice(i + 4, i + 8));
             i += 8;
         }
         // GPIO ALARM
         else if (channel_id === 0x85 && channel_type === 0x00) {
-            decoded.gpio = readGPIOStatus(bytes[i]);
-            decoded.gpio_alarm = readGPIOAlarm(bytes[i + 1]);
+            decoded.digital_1 = bytes[i];
+            decoded.digital_1_alarm = readGPIOAlarm(bytes[i + 1]);
             i += 2;
         }
         // WATER ALARM
         else if (channel_id === 0x85 && channel_type === 0xe1) {
-            decoded.water_conv = readUInt16LE(bytes.slice(i, i + 2)) / 10;
-            decoded.pulse_conv = readUInt16LE(bytes.slice(i + 2, i + 4)) / 10;
-            decoded.water = readFloatLE(bytes.slice(i + 4, i + 8));
-            decoded.water_alarm = readWaterAlarm(bytes[i + 8]);
+            decoded.water_1_conv = readUInt16LE(bytes.slice(i, i + 2)) / 10;
+            decoded.counter_1_conv = readUInt16LE(bytes.slice(i + 2, i + 4)) / 10;
+            decoded.water_1 = readFloatLE(bytes.slice(i + 4, i + 8));
+            decoded.water_1_alarm = readWaterAlarm(bytes[i + 8]);
             i += 9;
         }
         // HISTORICAL DATA
@@ -86,15 +86,15 @@ function milesightDeviceDecode(bytes) {
 
             var point = {};
             point.timestamp = readUInt32LE(bytes.slice(i, i + 4));
-            point.temperature = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
-            point.humidity = bytes[i + 6] / 2;
+            point.temperature_1 = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
+            point.humidity_1 = bytes[i + 6] / 2;
             var mode = bytes[i + 7];
             if (mode === 1) {
-                point.gpio_type = "gpio";
-                point.gpio = bytes[i + 8];
+                point.digital_1_type = "gpio";
+                point.digital_1 = bytes[i + 8];
             } else if (mode === 2) {
-                point.gpio_type = "pulse";
-                point.pulse = readUInt32LE(bytes.slice(i + 9, i + 13));
+                point.digital_1_type = "pulse";
+                point.counter_1 = readUInt32LE(bytes.slice(i + 9, i + 13));
             }
             decoded.history = decoded.history || [];
             decoded.history.push(point);
@@ -104,18 +104,18 @@ function milesightDeviceDecode(bytes) {
         else if (channel_id === 0x21 && channel_type === 0xce) {
             var point = {};
             point.timestamp = readUInt32LE(bytes.slice(i, i + 4));
-            point.temperature = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
-            point.humidity = bytes[i + 6] / 2;
+            point.temperature_1 = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
+            point.humidity_1 = bytes[i + 6] / 2;
             point.alarm = readAlarm(bytes[i + 7]);
             var mode = bytes[i + 8];
             if (mode === 1) {
-                point.gpio_type = "gpio";
-                point.gpio = readGPIOStatus(bytes[i + 9]);
+                point.digital_1_type = "gpio";
+                point.digital_1 = bytes[i + 9];
             } else if (mode === 2) {
-                point.gpio_type = "pulse";
-                point.water_conv = readUInt16LE(bytes.slice(i + 10, i + 12)) / 10;
-                point.pulse_conv = readUInt16LE(bytes.slice(i + 12, i + 14)) / 10;
-                point.water = readFloatLE(bytes.slice(i + 14, i + 18));
+                point.digital_1_type = "pulse";
+                point.water_1_conv = readUInt16LE(bytes.slice(i + 10, i + 12)) / 10;
+                point.counter_1_conv = readUInt16LE(bytes.slice(i + 12, i + 14)) / 10;
+                point.water_1 = readFloatLE(bytes.slice(i + 14, i + 18));
             }
 
             decoded.history = decoded.history || [];

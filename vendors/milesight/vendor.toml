@@ -17,6 +17,9 @@ devices = [
     "milesight-em320-th.toml",
     "milesight-em400-tld.toml",
     "milesight-em500-pt100.toml",
+    "milesight-ts301.toml",
+    "milesight-ts302.toml",
+    "milesight-uc300.toml",
     "milesight-ws303.toml",
 ]
 

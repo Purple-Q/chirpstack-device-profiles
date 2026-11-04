@@ -77,7 +77,7 @@ function milesightDeviceDecode(bytes) {
         }
         // LIQUID
         else if (channel_id === 0x03 && channel_type === 0xed) {
-            decoded.liquid = readLiquidStatus(bytes[i]);
+            decoded.liquid_1 = readLiquidStatus(bytes[i]);
             i += 1;
         }
         // CALIBRATION RESULT
@@ -87,8 +87,8 @@ function milesightDeviceDecode(bytes) {
         }
         // LIQUID ALARM
         else if (channel_id === 0x83 && channel_type === 0xed) {
-            decoded.liquid = readLiquidStatus(bytes[i]);
-            decoded.liquid_alarm = readAlarmType(bytes[i + 1]);
+            decoded.liquid_1 = readLiquidStatus(bytes[i]);
+            decoded.liquid_1_alarm = readAlarmType(bytes[i + 1]);
             i += 2;
         }
         // DOWNLINK RESPONSE

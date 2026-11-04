@@ -81,7 +81,7 @@ function milesightDeviceDecode(bytes) {
         }
         // WATER LEAK
         else if (channel_id === 0x03 && channel_type === 0x00) {
-            decoded.leakage_status = readLeakageStatus(bytes[i]);
+            decoded.leakage_status_1 = readLeakageStatus(bytes[i]);
             i += 1;
         }
         // DOWNLINK RESPONSE

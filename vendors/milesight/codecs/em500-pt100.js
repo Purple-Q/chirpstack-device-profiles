@@ -79,17 +79,17 @@ function milesightDeviceDecode(bytes) {
             decoded.battery = readUInt8(bytes[i]);
             i += 1;
         }
-        // TEMPERATURE
+        // temperature_1
         else if (channel_id === 0x03 && channel_type === 0x67) {
             // °C
-            decoded.temperature = readInt16LE(bytes.slice(i, i + 2)) / 10;
+            decoded.temperature_1 = readInt16LE(bytes.slice(i, i + 2)) / 10;
             i += 2;
         }
-        // TEMPERATURE MUTATION ALARM
+        // temperature_1 MUTATION ALARM
         else if (channel_id === 0x83 && channel_type === 0xd7) {
-            decoded.temperature = readInt16LE(bytes.slice(i, i + 2)) / 10;
-            decoded.temperature_mutation = readInt16LE(bytes.slice(i + 2, i + 4)) / 10;
-            decoded.temperature_alarm = readTemperatureAlarm(bytes[i + 4]);
+            decoded.temperature_1 = readInt16LE(bytes.slice(i, i + 2)) / 10;
+            decoded.temperature_1_mutation = readInt16LE(bytes.slice(i + 2, i + 4)) / 10;
+            decoded.temperature_1_alarm = readTemperatureAlarm(bytes[i + 4]);
             i += 5;
         }
         // MEASURING EQUIPMENT
@@ -104,7 +104,7 @@ function milesightDeviceDecode(bytes) {
         else if (channel_id === 0x20 && channel_type === 0xce) {
             var data = {};
             data.timestamp = readUInt32LE(bytes.slice(i, i + 4));
-            data.temperature = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
+            data.temperature_1 = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
             i += 6;
             decoded.history = decoded.history || [];
             decoded.history.push(data);
@@ -140,19 +140,19 @@ function handle_downlink_response(channel_type, bytes, offset) {
             var id = (data >> 3) & 0x07;
             var enable = (data >> 6) & 0x01;
 
-            // temperature alarm
+            // temperature_1 alarm
             if (id === 1) {
-                decoded.temperature_alarm_config = {};
-                decoded.temperature_alarm_config.enable = readEnableStatus(enable);
-                decoded.temperature_alarm_config.condition = readConditionType(condition);
-                decoded.temperature_alarm_config.threshold_min = readInt16LE(bytes.slice(offset + 1, offset + 3)) / 10;
-                decoded.temperature_alarm_config.threshold_max = readInt16LE(bytes.slice(offset + 3, offset + 5)) / 10;
+                decoded.temperature_1_alarm_config = {};
+                decoded.temperature_1_alarm_config.enable = readEnableStatus(enable);
+                decoded.temperature_1_alarm_config.condition = readConditionType(condition);
+                decoded.temperature_1_alarm_config.threshold_min = readInt16LE(bytes.slice(offset + 1, offset + 3)) / 10;
+                decoded.temperature_1_alarm_config.threshold_max = readInt16LE(bytes.slice(offset + 3, offset + 5)) / 10;
             }
-            // temperature mutation alarm
+            // temperature_1 mutation alarm
             else if (id === 2) {
-                decoded.temperature_mutation_alarm_config = {};
-                decoded.temperature_mutation_alarm_config.enable = readEnableStatus(enable);
-                decoded.temperature_mutation_alarm_config.mutation = readInt16LE(bytes.slice(offset + 3, offset + 5)) / 10;
+                decoded.temperature_1_mutation_alarm_config = {};
+                decoded.temperature_1_mutation_alarm_config.enable = readEnableStatus(enable);
+                decoded.temperature_1_mutation_alarm_config.mutation = readInt16LE(bytes.slice(offset + 3, offset + 5)) / 10;
             }
             offset += 9;
             break;
@@ -229,10 +229,10 @@ function handle_downlink_response(channel_type, bytes, offset) {
             decoded.d2d_master_config.push(d2d_master_config);
             break;
         case 0xf1:
-            decoded.temperature_calibration_settings = {};
+            decoded.temperature_1_calibration_settings = {};
             // skip 1 byte
-            decoded.temperature_calibration_settings.enable = readEnableStatus(bytes[offset + 1]);
-            decoded.temperature_calibration_settings.calibration_value = readInt16LE(bytes.slice(offset + 2, offset + 4)) / 10;
+            decoded.temperature_1_calibration_settings.enable = readEnableStatus(bytes[offset + 1]);
+            decoded.temperature_1_calibration_settings.calibration_value = readInt16LE(bytes.slice(offset + 2, offset + 4)) / 10;
             offset += 4;
             break;
         case 0xf2:

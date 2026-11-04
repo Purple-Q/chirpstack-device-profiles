@@ -68,22 +68,22 @@ function milesightDeviceDecode(bytes) {
             decoded.battery = readUInt8(bytes[i]);
             i += 1;
         }
-        // TEMPERATURE
+        // temperature_1
         else if (channel_id === 0x03 && channel_type === 0x67) {
-            decoded.temperature = readInt16LE(bytes.slice(i, i + 2)) / 10;
+            decoded.temperature_1 = readInt16LE(bytes.slice(i, i + 2)) / 10;
             i += 2;
         }
-        // HUMIDITY
+        // humidity_1
         else if (channel_id === 0x04 && channel_type === 0x68) {
-            decoded.humidity = readUInt8(bytes[i]) / 2;
+            decoded.humidity_1 = readUInt8(bytes[i]) / 2;
             i += 1;
         }
         // HISTORICAL DATA
         else if (channel_id === 0x20 && channel_type === 0xce) {
             var data = {};
             data.timestamp = readUInt32LE(bytes.slice(i, i + 4));
-            data.temperature = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
-            data.humidity = readUInt8(bytes[i + 6]) / 2;
+            data.temperature_1 = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
+            data.humidity_1 = readUInt8(bytes[i + 6]) / 2;
 
             decoded.history = decoded.history || [];
             decoded.history.push(data);

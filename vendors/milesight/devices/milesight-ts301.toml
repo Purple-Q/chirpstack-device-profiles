@@ -1,0 +1,28 @@
+[device]
+id = "b49b7225-de8d-460f-9a0a-8a13e5d3ac4f"
+name = "Milesight TS301"
+description = "Temperature Sensor (1 probe)"
+
+[[device.firmware]]
+version = "1.2"
+profiles = [
+    "AS923-1_0_3.toml",
+    "AU915-1_0_3.toml",
+    "EU868-1_0_3.toml",
+    "US915-1_0_3.toml",
+]
+codec = "ts301-v2.js"
+
+[[device.firmware]]
+version = "1.1"
+profiles = [
+    "AS923-1_0_3.toml",
+    "AU915-1_0_3.toml",
+    "EU868-1_0_3.toml",
+    "US915-1_0_3.toml",
+]
+codec = "ts301.js"
+
+[device.metadata]
+product_url = "https://www.milesight.com/iot/product/lorawan-sensor/ts30x"
+documentation_url = "https://www.milesight.com/iot/product/lorawan-sensor/ts30x"

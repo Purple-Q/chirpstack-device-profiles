@@ -79,31 +79,31 @@ function milesightDeviceDecode(bytes) {
             decoded.battery = readUInt8(bytes[i]);
             i += 1;
         }
-        // TEMPERATURE
+        // temperature_1
         else if (channel_id === 0x03 && channel_type === 0x67) {
-            decoded.temperature = readInt16LE(bytes.slice(i, i + 2)) / 10;
+            decoded.temperature_1 = readInt16LE(bytes.slice(i, i + 2)) / 10;
             i += 2;
         }
         // DISTANCE
         else if (channel_id === 0x04 && channel_type === 0x82) {
-            decoded.distance = readUInt16LE(bytes.slice(i, i + 2));
+            decoded.distance_1 = readUInt16LE(bytes.slice(i, i + 2));
             i += 2;
         }
         // POSITION
         else if (channel_id === 0x05 && channel_type === 0x00) {
-            decoded.position = readPositionType(bytes[i]);
+            decoded.position_1 = readPositionType(bytes[i]);
             i += 1;
         }
-        // TEMPERATURE WITH ABNORMAL
+        // temperature_1 WITH ABNORMAL
         else if (channel_id === 0x83 && channel_type === 0x67) {
-            decoded.temperature = readInt16LE(bytes.slice(i, i + 2)) / 10;
-            decoded.temperature_alarm = readAlarmType(bytes[i + 2]);
+            decoded.temperature_1 = readInt16LE(bytes.slice(i, i + 2)) / 10;
+            decoded.temperature_1_alarm = readAlarmType(bytes[i + 2]);
             i += 3;
         }
         // DISTANCE WITH ALARMING
         else if (channel_id === 0x84 && channel_type === 0x82) {
-            decoded.distance = readUInt16LE(bytes.slice(i, i + 2));
-            decoded.distance_alarm = readAlarmType(bytes[i + 2]);
+            decoded.distance_1 = readUInt16LE(bytes.slice(i, i + 2));
+            decoded.distance_1_alarm = readAlarmType(bytes[i + 2]);
             i += 3;
         }
         // DOWNLINK RESPONSE

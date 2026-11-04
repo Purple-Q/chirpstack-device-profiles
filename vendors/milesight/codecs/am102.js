@@ -79,23 +79,23 @@ function milesightDeviceDecode(bytes) {
             decoded.battery = readUInt8(bytes[i]);
             i += 1;
         }
-        // TEMPERATURE
+        // temperature_1
         else if (channel_id === 0x03 && channel_type === 0x67) {
             // °C
-            decoded.temperature = readInt16LE(bytes.slice(i, i + 2)) / 10;
+            decoded.temperature_1 = readInt16LE(bytes.slice(i, i + 2)) / 10;
             i += 2;
         }
-        // HUMIDITY
+        // humidity_1
         else if (channel_id === 0x04 && channel_type === 0x68) {
-            decoded.humidity = readUInt8(bytes[i]) / 2;
+            decoded.humidity_1 = readUInt8(bytes[i]) / 2;
             i += 1;
         }
         // HISTORY DATA
         else if (channel_id === 0x20 && channel_type === 0xce) {
             var data = {};
             data.timestamp = readUInt32LE(bytes.slice(i, i + 4));
-            data.temperature = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
-            data.humidity = readUInt8(bytes[i + 6]) / 2;
+            data.temperature_1 = readInt16LE(bytes.slice(i + 4, i + 6)) / 10;
+            data.humidity_1 = readUInt8(bytes[i + 6]) / 2;
             i += 7;
             decoded.history = decoded.history || [];
             decoded.history.push(data);
@@ -104,7 +104,7 @@ function milesightDeviceDecode(bytes) {
         else if (channel_id === 0xff && channel_type === 0x18) {
             // skip 1 byte
             var data = readUInt8(bytes[i + 1]);
-            var sensor_bit_offset = { temperature: 0, humidity: 1 };
+            var sensor_bit_offset = { temperature_1: 0, humidity_1: 1 };
             decoded.sensor_enable = {};
             for (var key in sensor_bit_offset) {
                 decoded.sensor_enable[key] = readEnableStatus((data >> sensor_bit_offset[key]) & 0x01);
@@ -133,11 +133,11 @@ function handle_downlink_response(channel_type, bytes, offset) {
             offset += 2;
             break;
         case 0x06:
-            decoded.temperature_alarm_config = {};
+            decoded.temperature_1_alarm_config = {};
             var condition = readUInt8(bytes[offset]);
-            decoded.temperature_alarm_config.condition = readMathCondition(condition & 0x07);
-            decoded.temperature_alarm_config.threshold_min = readInt16LE(bytes.slice(offset + 1, offset + 3)) / 10;
-            decoded.temperature_alarm_config.threshold_max = readInt16LE(bytes.slice(offset + 3, offset + 5)) / 10;
+            decoded.temperature_1_alarm_config.condition = readMathCondition(condition & 0x07);
+            decoded.temperature_1_alarm_config.threshold_min = readInt16LE(bytes.slice(offset + 1, offset + 3)) / 10;
+            decoded.temperature_1_alarm_config.threshold_max = readInt16LE(bytes.slice(offset + 3, offset + 5)) / 10;
             // skip 4 bytes
             offset += 9;
             break;
