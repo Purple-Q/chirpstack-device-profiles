@@ -1,0 +1,31 @@
+[
+  {
+    "name": "LHT65N SHT + no DS probe",
+    "input": {
+      "fPort": 2,
+      "bytes": [
+        203,
+        220,
+        0,
+        242,
+        3,
+        111,
+        1,
+        127,
+        255,
+        127,
+        255
+      ]
+    },
+    "expected": {
+      "data": {
+        "BatV": 3.036,
+        "Bat_status": 3,
+        "temperature_1": 2.42,
+        "humidity_1": 87.9,
+        "Ext_sensor": "Temperature Sensor",
+        "TempC_DS": 327.67
+      }
+    }
+  }
+]

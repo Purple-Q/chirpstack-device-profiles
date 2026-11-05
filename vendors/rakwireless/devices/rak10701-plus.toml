@@ -1,0 +1,15 @@
+[device]
+id = "dd2814ef-336a-49c8-a477-240790321211"
+name = "RAK10701-plus"
+description = "RAK10701-P Field Tester Plus for LoRaWAN (GNSS, touchscreen). Signal stats are shown via downlinks from a field-tester backend."
+
+[[device.firmware]]
+version = "1.1.2"
+profiles = [
+    "EU868-1_0_3.toml",
+]
+codec = "rak10701-plus.js"
+
+[device.metadata]
+product_url = "https://store.rakwireless.com/products/rak10701-field-tester-for-lorawan"
+documentation_url = "https://docs.rakwireless.com/Product-Categories/WisNode/RAK10701-P/Overview/"

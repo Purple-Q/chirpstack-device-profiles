@@ -1,0 +1,59 @@
+[
+  {
+    "name": "good fix, Amsterdam",
+    "input": {
+      "fPort": 1,
+      "bytes": [
+        36,
+        254,
+        226,
+        3,
+        121,
+        99,
+        3,
+        244,
+        12,
+        8
+      ]
+    },
+    "expected": {
+      "data": {
+        "latitude": 52.3701989,
+        "longitude": 4.8951952,
+        "altitude": 12,
+        "accuracy": 1.1,
+        "hdop": 1.2,
+        "sats": 8
+      }
+    }
+  },
+  {
+    "name": "poor fix",
+    "input": {
+      "fPort": 1,
+      "bytes": [
+        36,
+        254,
+        226,
+        3,
+        121,
+        99,
+        3,
+        244,
+        35,
+        3
+      ]
+    },
+    "expected": {
+      "data": {
+        "latitude": 52.3701989,
+        "longitude": 4.8951952,
+        "altitude": 12,
+        "accuracy": 2.25,
+        "hdop": 3.5,
+        "sats": 3,
+        "error": "Need more GPS precision (hdop must be <2 & sats must be >= 5) current hdop: 3.5 & sats:3"
+      }
+    }
+  }
+]

@@ -202,10 +202,10 @@ function Decode(fPort, bytes, variables) {
 					}
 
 					if (Ext != 0x0f) {
-						decode.TempC_SHT = parseFloat(
+						decode.temperature_1 = parseFloat(
 							((((bytes[2] << 24) >> 16) | bytes[3]) / 100).toFixed(2)
 						);
-						decode.Hum_SHT = parseFloat(
+						decode.humidity_1 = parseFloat(
 							((((bytes[4] << 8) | bytes[5]) & 0xfff) / 10).toFixed(1)
 						);
 					}
@@ -251,10 +251,10 @@ function Decode(fPort, bytes, variables) {
 							(bytes[7] << 24) | (bytes[8] << 16) | (bytes[9] << 8) | bytes[10];
 					} else if (Ext == "11") {
 						decode.Work_mode = "SHT31 Sensor";
-						decode.Ext_TempC_SHT = parseFloat(
+						decode.temperature_2 = parseFloat(
 							((((bytes[7] << 24) >> 16) | bytes[8]) / 100).toFixed(2)
 						);
-						decode.Ext_Hum_SHT = parseFloat(
+						decode.humidity_2 = parseFloat(
 							((((bytes[9] << 8) | bytes[10]) & 0xfff) / 10).toFixed(1)
 						);
 					} else if (Ext == "14") {
