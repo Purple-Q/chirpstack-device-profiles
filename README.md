@@ -16,7 +16,7 @@ Example command:
 git clone https://github.com/Purple-Q/chirpstack-device-profiles.git
 
 # Execute the import command.
-chirpstack -c /etc/chirpstack import-device-profiles -d /path/to/chirpstack-device-profiles
+chirpstack -c /etc/chirpstack import-device-profiles -d ./chirpstack-device-profiles
 ```
 
 See also: [Device profiles documentation](https://www.chirpstack.io/docs/chirpstack/use/device-profiles.html)
