@@ -5,10 +5,7 @@ description = "Programmable temperature, humidity, orientation, motion and magne
 
 [[device.firmware]]
 version = "2.0"
-profiles = [
-    "EU868.toml",
-    "IN865.toml",
-]
+profiles = ["EU868-1_0_4.toml"]
 codec = "tg-lrx2-2-0-ul-dec.js"
 
 [device.metadata]

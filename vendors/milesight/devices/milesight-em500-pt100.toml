@@ -5,12 +5,7 @@ description = "Industrial Temperature Sensor (PT100)"
 
 [[device.firmware]]
 version = "1.0"
-profiles = [
-    "AS923-1_0_3.toml",
-    "AU915-1_0_3.toml",
-    "EU868-1_0_3.toml",
-    "US915-1_0_3.toml",
-]
+profiles = ["EU868-1_0_3.toml"]
 codec = "em500-pt100.js"
 
 [device.metadata]

@@ -5,22 +5,12 @@ description = "Magnetic Contact Switch"
 
 [[device.firmware]]
 version = "1.22"
-profiles = [
-    "AS923-1_0_3.toml",
-    "AU915-1_0_3.toml",
-    "EU868-1_0_3.toml",
-    "US915-1_0_3.toml",
-]
+profiles = ["EU868-1_0_3.toml"]
 codec = "em300-mcs.js"
 
 [[device.firmware]]
 version = "1.8"
-profiles = [
-    "AS923-1_0_3.toml",
-    "AU915-1_0_3.toml",
-    "US915-1_0_3.toml",
-    "EU868-1_0_3.toml",
-]
+profiles = ["EU868-1_0_3.toml"]
 codec = "em300-mcs.js"
 
 [device.metadata]

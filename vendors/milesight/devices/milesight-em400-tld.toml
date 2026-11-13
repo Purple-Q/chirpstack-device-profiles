@@ -5,12 +5,7 @@ description = "ToF Laser Distance Sensor"
 
 [[device.firmware]]
 version = "1.2"
-profiles = [
-    "EU868-1_0_3.toml",
-    "US915-1_0_3.toml",
-    "AU915-1_0_3.toml",
-    "AS923-1_0_3.toml",
-]
+profiles = ["EU868-1_0_3.toml"]
 codec = "em400-tld.js"
 
 [device.metadata]

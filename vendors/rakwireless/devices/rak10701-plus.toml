@@ -5,9 +5,7 @@ description = "RAK10701-P Field Tester Plus for LoRaWAN (GNSS, touchscreen). Sig
 
 [[device.firmware]]
 version = "1.1.2"
-profiles = [
-    "EU868-1_0_3.toml",
-]
+profiles = ["EU868-1_0_3.toml"]
 codec = "rak10701-plus.js"
 
 [device.metadata]

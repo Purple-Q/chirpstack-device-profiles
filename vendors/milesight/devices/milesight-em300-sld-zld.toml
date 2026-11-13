@@ -5,22 +5,12 @@ description = "Leak Detection Sensor"
 
 [[device.firmware]]
 version = "1.22"
-profiles = [
-    "AS923-1_0_3.toml",
-    "AU915-1_0_3.toml",
-    "EU868-1_0_3.toml",
-    "US915-1_0_3.toml",
-]
+profiles = ["EU868-1_0_3.toml"]
 codec = "em300-sld-zld.js"
 
 [[device.firmware]]
 version = "1.9"
-profiles = [
-    "AS923-1_0_3.toml",
-    "AU915-1_0_3.toml",
-    "EU868-1_0_3.toml",
-    "US915-1_0_3.toml",
-]
+profiles = ["EU868-1_0_3.toml"]
 codec = "em300-sld-zld.js"
 
 [device.metadata]

@@ -5,9 +5,7 @@ description = "PT100 temperature transmitter, 2 channels. Based on Dragino's off
 
 [[device.firmware]]
 version = "1.0"
-profiles = [
-    "EU868-1_0_3.toml",
-]
+profiles = ["EU868-1_0_3.toml"]
 codec = "ltc2.js"
 
 [device.metadata]

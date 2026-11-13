@@ -5,12 +5,7 @@ description = "Vision AI Sensor"
 
 [[device.firmware]]
 version = "1.0.0"
-profiles = [
-    "AS923-1_0_3.toml",
-    "AU915-1_0_3.toml",
-    "EU868-1_0_3.toml",
-    "US915-1_0_3.toml",
-]
+profiles = ["EU868-1_0_3.toml"]
 
 [device.metadata]
 product_url = "https://www.seeedstudio.com/SenseCAP-A1101-LoRaWAN-Vision-AI-Sensor-p-5367.html"

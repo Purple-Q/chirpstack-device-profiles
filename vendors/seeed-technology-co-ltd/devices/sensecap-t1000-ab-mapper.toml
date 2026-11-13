@@ -5,12 +5,7 @@ description = "Profile for Helium & TTN Mapper mapping platforms"
 
 [[device.firmware]]
 version = "2.2"
-profiles = [
-    "AS923-1_0_3.toml",
-    "AU915-1_0_3.toml",
-    "EU868-1_0_3.toml",
-    "US915-1_0_3.toml",
-]
+profiles = ["EU868-1_0_3.toml"]
 codec = "SenseCAP_T1000_mapper.js"
 
 [[device.firmware]]
