@@ -8,7 +8,6 @@ supports_otaa = true
 supports_class_b = false
 supports_class_c = false
 max_eirp = 20
-auto_detect_measurements = true
 
 [profile.abp]
 rx1_delay = 0
